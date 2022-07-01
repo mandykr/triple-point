@@ -32,7 +32,7 @@ class PointModCalculatorTest {
         pointPolicy = new DefaultPointPolicy();
     }
 
-    @DisplayName("포토 리뷰에 텍스트를 작성하면 텍스트 작성 이벤트를 추가한다")
+    @DisplayName("사진 리뷰에 텍스트를 작성하면 텍스트 작성 이벤트를 추가한다")
     @Test
     void addText() {
         // given

@@ -65,7 +65,7 @@ public class PointModCalculator implements PointCalculator {
         }
     }
 
-    // 포토 리뷰에 텍스트 추가하는 경우
+    // 사진 리뷰에 텍스트 추가하는 경우
     private boolean doAddText(Review review, PointEvent savedTextEvent) {
         return (EmptyPointEvent.isEmpty(savedTextEvent) ||
                 savedTextEvent.getAction() == DELETE) &&

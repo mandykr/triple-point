@@ -169,7 +169,7 @@ class PointAddCalculatorTest {
         );
     }
 
-    @DisplayName("장소에 처음 등록하는 포토 리뷰이면 사진 첨부, 첫 리뷰 이벤트를 추가한다")
+    @DisplayName("장소에 처음 등록하는 사진 리뷰이면 사진 첨부, 첫 리뷰 이벤트를 추가한다")
     @Test
     void placeAndPhotoPoints() {
         // given
@@ -186,7 +186,7 @@ class PointAddCalculatorTest {
         );
     }
 
-    @DisplayName("장소에 처음 등록하는 텍스트, 포토 리뷰이면 텍스트 작성, 사진 첨부, 첫 리뷰 이벤트를 추가한다")
+    @DisplayName("장소에 처음 등록하는 텍스트, 사진 리뷰이면 텍스트 작성, 사진 첨부, 첫 리뷰 이벤트를 추가한다")
     @Test
     void placeAndTextAndPhotoPoints() {
         // given
