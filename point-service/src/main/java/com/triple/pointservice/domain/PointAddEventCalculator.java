@@ -17,8 +17,10 @@ public class PointAddEventCalculator implements PointEventCalculator {
     }
 
     @Override
-    public PointEvents calculate(
-            Review review, PointPolicy pointPolicy, PointEvents savedEvents, PointEvents savedPlaceEvents) {
+    public PointEvents calculate(Review review, PointPolicy pointPolicy, PointEventCalculateCondition condition) {
+        PointEvents savedEvents = condition.getSavedEvents();
+        PointEvents savedPlaceEvents = condition.getSavedPlaceEvents();
+
         calculateContentPoint(review, pointPolicy, savedEvents);
         calculatePlacePoint(review, pointPolicy, savedPlaceEvents);
         return events;

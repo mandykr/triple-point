@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+import static com.triple.pointservice.domain.PointEventCalculateCondition.savedEventsCondition;
+import static com.triple.pointservice.domain.PointEventCalculateCondition.savedPlaceEventsCondition;
 import static com.triple.pointservice.domain.ReviewFixture.*;
 import static com.triple.pointservice.domain.event.PointEventAction.ADD;
 import static com.triple.pointservice.domain.event.PointEventAction.DELETE;
@@ -44,9 +46,10 @@ class PointAddCalculatorTest {
     void calculateTextPoint() {
         // given
         Review review = createTextReview(ReviewEventAction.ADD);
+        PointEventCalculateCondition condition = new PointEventCalculateCondition(new PointEvents(), savedPlaceEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -62,9 +65,10 @@ class PointAddCalculatorTest {
     void emptyText(String text) {
         // given
         Review review = createReview(ReviewEventAction.ADD, text, Collections.emptyList());
+        PointEventCalculateCondition condition = savedPlaceEventsCondition(savedPlaceEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertThat(getSize(events)).isZero();
@@ -75,9 +79,10 @@ class PointAddCalculatorTest {
     void calculatePhotoPoint() {
         // given
         Review review = createPhotoReview(ReviewEventAction.ADD);
+        PointEventCalculateCondition condition = savedPlaceEventsCondition(savedPlaceEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -92,9 +97,10 @@ class PointAddCalculatorTest {
     void emptyPhoto() {
         // given
         Review review = createReview(ReviewEventAction.ADD, "", Collections.emptyList());
+        PointEventCalculateCondition condition = savedPlaceEventsCondition(savedPlaceEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertThat(getSize(events)).isZero();
@@ -105,9 +111,10 @@ class PointAddCalculatorTest {
     void calculateContentPoint() {
         // given
         Review review = createReview(ReviewEventAction.ADD, CONTENT, ATTACHED_PHOTO_IDS);
+        PointEventCalculateCondition condition = savedPlaceEventsCondition(savedPlaceEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -125,9 +132,10 @@ class PointAddCalculatorTest {
         PointEvents savedEvents = createPointEvents(
                 createTextEvent(DELETE, pointPolicy, LocalDate.now())
         );
+        PointEventCalculateCondition condition = new PointEventCalculateCondition(savedEvents, savedPlaceEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -145,10 +153,11 @@ class PointAddCalculatorTest {
         PointEvents savedEvents = createPointEvents(
                 createTextEvent(ADD, pointPolicy, LocalDate.now())
         );
+        PointEventCalculateCondition condition = savedEventsCondition(savedPlaceEvents);
 
         // when, then
         assertThatThrownBy(() -> {
-            pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+            pointEventCalculator.calculate(review, pointPolicy, condition);
         }).isInstanceOf(PointEventAlreadySavedException.class);
     }
 
@@ -157,9 +166,10 @@ class PointAddCalculatorTest {
     void placeAndTextPoints() {
         // given
         Review review = createTextReview(ReviewEventAction.ADD);
+        PointEventCalculateCondition condition = new PointEventCalculateCondition(new PointEvents(), new PointEvents());
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -174,9 +184,10 @@ class PointAddCalculatorTest {
     void placeAndPhotoPoints() {
         // given
         Review review = createPhotoReview(ReviewEventAction.ADD);
+        PointEventCalculateCondition condition = new PointEventCalculateCondition(new PointEvents(), new PointEvents());
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -191,9 +202,10 @@ class PointAddCalculatorTest {
     void placeAndTextAndPhotoPoints() {
         // given
         Review review = createReview(ReviewEventAction.ADD, CONTENT, ATTACHED_PHOTO_IDS);
+        PointEventCalculateCondition condition = new PointEventCalculateCondition(new PointEvents(), new PointEvents());
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -209,9 +221,10 @@ class PointAddCalculatorTest {
     void alreadySavedPlaceReview() {
         // given
         Review review = createReview(ReviewEventAction.ADD, CONTENT, ATTACHED_PHOTO_IDS);
+        PointEventCalculateCondition condition = savedPlaceEventsCondition(savedPlaceEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(

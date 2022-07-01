@@ -20,9 +20,8 @@ public class PointModEventCalculator implements PointEventCalculator {
     }
 
     @Override
-    public PointEvents calculate(
-            Review review, PointPolicy pointPolicy, PointEvents savedEvents, PointEvents savedPlaceEvents) {
-        calculateContentPoint(review, pointPolicy, savedEvents);
+    public PointEvents calculate(Review review, PointPolicy pointPolicy, PointEventCalculateCondition condition) {
+        calculateContentPoint(review, pointPolicy, condition.getSavedEvents());
         return events;
     }
 

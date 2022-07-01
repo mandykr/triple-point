@@ -19,8 +19,8 @@ public class PointDeleteEventCalculator implements PointEventCalculator {
     }
 
     @Override
-    public PointEvents calculate(
-            Review review, PointPolicy pointPolicy, PointEvents savedEvents, PointEvents savePlaceEvents) {
+    public PointEvents calculate(Review review, PointPolicy pointPolicy, PointEventCalculateCondition condition) {
+        PointEvents savedEvents = condition.getSavedEvents();
 
         if (savedEvents.isEmpty()) {
             throw new PointEventNotFoundException();

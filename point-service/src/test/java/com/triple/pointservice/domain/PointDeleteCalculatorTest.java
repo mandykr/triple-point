@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static com.triple.pointservice.domain.PointEventCalculateCondition.savedEventsCondition;
 import static com.triple.pointservice.domain.ReviewFixture.*;
 import static com.triple.pointservice.domain.event.PointEventAction.ADD;
 import static com.triple.pointservice.domain.event.PointEventAction.DELETE;
@@ -39,9 +40,10 @@ class PointDeleteCalculatorTest {
                 createTextEvent(ADD, pointPolicy, LocalDate.now())
         );
         Review review = createTextReview(ReviewEventAction.DELETE);
+        PointEventCalculateCondition condition = savedEventsCondition(savedEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -59,9 +61,10 @@ class PointDeleteCalculatorTest {
                 createPhotoEvent(ADD, pointPolicy, LocalDate.now())
         );
         Review review = createPhotoReview(ReviewEventAction.DELETE);
+        PointEventCalculateCondition condition = savedEventsCondition(savedEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -80,9 +83,10 @@ class PointDeleteCalculatorTest {
                 createPhotoEvent(ADD, pointPolicy, LocalDate.of(2022, 6, 2))
         );
         Review review = createTextAndPhotoReview(ReviewEventAction.DELETE);
+        PointEventCalculateCondition condition = savedEventsCondition(savedEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -101,9 +105,10 @@ class PointDeleteCalculatorTest {
                 createPlaceEvent(ADD, pointPolicy, LocalDate.of(2022, 6, 2))
         );
         Review review = createTextReview(ReviewEventAction.DELETE);
+        PointEventCalculateCondition condition = savedEventsCondition(savedEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -122,9 +127,10 @@ class PointDeleteCalculatorTest {
                 createPlaceEvent(ADD, pointPolicy, LocalDate.of(2022, 6, 2))
         );
         Review review = createPhotoReview(ReviewEventAction.DELETE);
+        PointEventCalculateCondition condition = savedEventsCondition(savedEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -144,9 +150,10 @@ class PointDeleteCalculatorTest {
                 createPhotoEvent(ADD, pointPolicy, LocalDate.of(2022, 6, 2))
         );
         Review review = createTextAndPhotoReview(ReviewEventAction.DELETE);
+        PointEventCalculateCondition condition = savedEventsCondition(savedEvents);
 
         // when
-        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
@@ -162,10 +169,11 @@ class PointDeleteCalculatorTest {
     void emptySavedEvents() {
         // given
         Review review = createTextReview(ReviewEventAction.DELETE);
+        PointEventCalculateCondition condition = new PointEventCalculateCondition(new PointEvents(), new PointEvents());
 
         // when, then
         assertThatThrownBy(() -> {
-            pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
+            pointEventCalculator.calculate(review, pointPolicy, condition);
         }).isInstanceOf(PointEventNotFoundException.class);
     }
 
@@ -182,10 +190,11 @@ class PointDeleteCalculatorTest {
                 createPhotoEvent(DELETE, pointPolicy, LocalDate.of(2022, 6, 3))
         );
         Review review = createTextReview(ReviewEventAction.DELETE);
+        PointEventCalculateCondition condition = savedEventsCondition(savedEvents);
 
         // when, then
         assertThatThrownBy(() -> {
-            pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+            pointEventCalculator.calculate(review, pointPolicy, condition);
         }).isInstanceOf(PointEventAllDeletedException.class);
     }
 }
