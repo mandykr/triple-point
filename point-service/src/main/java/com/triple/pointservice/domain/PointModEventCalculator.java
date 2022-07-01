@@ -12,10 +12,10 @@ import static com.triple.pointservice.domain.event.PointEventAction.DELETE;
 import static com.triple.pointservice.domain.event.PointEventType.ATTACHED_PHOTOS;
 import static com.triple.pointservice.domain.event.PointEventType.WRITE_TEXT;
 
-public class PointModCalculator implements PointCalculator {
+public class PointModEventCalculator implements PointEventCalculator {
     private PointEvents events;
 
-    public PointModCalculator() {
+    public PointModEventCalculator() {
         events = new PointEvents();
     }
 

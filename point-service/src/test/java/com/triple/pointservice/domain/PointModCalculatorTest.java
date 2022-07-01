@@ -23,12 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("리뷰 수정에 대한 포인트를 계산해 이벤트를 생성한다")
 class PointModCalculatorTest {
-    private PointCalculator pointCalculator;
+    private PointEventCalculator pointEventCalculator;
     private PointPolicy pointPolicy;
 
     @BeforeEach
     void setUp() {
-        pointCalculator = new PointModCalculator();
+        pointEventCalculator = new PointModEventCalculator();
         pointPolicy = new DefaultPointPolicy();
     }
 
@@ -42,7 +42,7 @@ class PointModCalculatorTest {
         Review review = createTextAndPhotoReview(ReviewEventAction.MOD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
 
         // then
         assertAll(
@@ -62,7 +62,7 @@ class PointModCalculatorTest {
         Review review = createTextReview(ReviewEventAction.MOD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
 
         // then
         assertThat(getSize(events)).isZero();
@@ -79,7 +79,7 @@ class PointModCalculatorTest {
         Review review = createPhotoReview(ReviewEventAction.MOD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
 
         // then
         assertAll(
@@ -99,7 +99,7 @@ class PointModCalculatorTest {
         Review review = createTextAndPhotoReview(ReviewEventAction.MOD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
 
         // then
         assertAll(
@@ -119,7 +119,7 @@ class PointModCalculatorTest {
         Review review = createPhotoReview(ReviewEventAction.MOD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
 
         // then
         assertThat(getSize(events)).isZero();
@@ -136,7 +136,7 @@ class PointModCalculatorTest {
         Review review = createTextReview(ReviewEventAction.MOD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
 
         // then
         assertAll(
@@ -154,7 +154,7 @@ class PointModCalculatorTest {
 
         // when, then
         assertThatThrownBy(() -> {
-            pointCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
+            pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
         }).isInstanceOf(PointEventNotFoundException.class);
     }
 
@@ -174,7 +174,7 @@ class PointModCalculatorTest {
 
         // when, then
         assertThatThrownBy(() -> {
-            pointCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+            pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
         }).isInstanceOf(PointEventAllDeletedException.class);
     }
 }

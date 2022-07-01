@@ -9,10 +9,10 @@ import java.util.Objects;
 import static com.triple.pointservice.domain.event.PointEventAction.ADD;
 import static com.triple.pointservice.domain.event.PointEventType.*;
 
-public class PointAddCalculator implements PointCalculator {
+public class PointAddEventCalculator implements PointEventCalculator {
     private PointEvents events;
 
-    public PointAddCalculator() {
+    public PointAddEventCalculator() {
         events = new PointEvents();
     }
 

@@ -11,10 +11,10 @@ import static com.triple.pointservice.domain.event.PointEventAction.ADD;
 import static com.triple.pointservice.domain.event.PointEventAction.DELETE;
 import static com.triple.pointservice.domain.event.PointEventType.*;
 
-public class PointDeleteCalculator implements PointCalculator {
+public class PointDeleteEventCalculator implements PointEventCalculator {
     private PointEvents events;
 
-    public PointDeleteCalculator() {
+    public PointDeleteEventCalculator() {
         events = new PointEvents();
     }
 

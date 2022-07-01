@@ -2,7 +2,7 @@ package com.triple.pointservice.application;
 
 import com.triple.pointservice.application.dto.PointEventResponse;
 import com.triple.pointservice.application.dto.ReviewEventRequest;
-import com.triple.pointservice.domain.PointCalculator;
+import com.triple.pointservice.domain.PointEventCalculator;
 import com.triple.pointservice.domain.PointCalculatorFactory;
 import com.triple.pointservice.domain.PointPolicy;
 import com.triple.pointservice.domain.event.PointEvent;
@@ -38,7 +38,7 @@ public class PointEventService {
     }
 
     private PointEvents calculatePoint(ReviewEventRequest reviewEventRequest) {
-        PointCalculator calculator = PointCalculatorFactory.of(reviewEventRequest.getAction());
+        PointEventCalculator calculator = PointCalculatorFactory.of(reviewEventRequest.getAction());
         PointEvents savedPointEvents =
                 new PointEvents(pointEventRepository.findByReviewId(reviewEventRequest.getReviewId()));
         PointEvents savedPlacePointEvents =

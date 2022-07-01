@@ -26,13 +26,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("리뷰 추가에 대한 포인트를 계산해 이벤트를 생성한다")
 class PointAddCalculatorTest {
-    private PointCalculator pointCalculator;
+    private PointEventCalculator pointEventCalculator;
     private PointPolicy pointPolicy;
     private PointEvents savedPlaceEvents;
 
     @BeforeEach
     void setUp() {
-        pointCalculator = new PointAddCalculator();
+        pointEventCalculator = new PointAddEventCalculator();
         pointPolicy = new DefaultPointPolicy();
         savedPlaceEvents = new PointEvents(List.of(
                 createEvent(ADDED_FIRST_REVIEW_ON_PLACE, ADD, pointPolicy, LocalDate.now()))
@@ -46,7 +46,7 @@ class PointAddCalculatorTest {
         Review review = createTextReview(ReviewEventAction.ADD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
 
         // then
         assertAll(
@@ -64,7 +64,7 @@ class PointAddCalculatorTest {
         Review review = createReview(ReviewEventAction.ADD, text, Collections.emptyList());
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
 
         // then
         assertThat(getSize(events)).isZero();
@@ -77,7 +77,7 @@ class PointAddCalculatorTest {
         Review review = createPhotoReview(ReviewEventAction.ADD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
 
         // then
         assertAll(
@@ -94,7 +94,7 @@ class PointAddCalculatorTest {
         Review review = createReview(ReviewEventAction.ADD, "", Collections.emptyList());
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
 
         // then
         assertThat(getSize(events)).isZero();
@@ -107,7 +107,7 @@ class PointAddCalculatorTest {
         Review review = createReview(ReviewEventAction.ADD, CONTENT, ATTACHED_PHOTO_IDS);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
 
         // then
         assertAll(
@@ -127,7 +127,7 @@ class PointAddCalculatorTest {
         );
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, savedEvents, savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, savedEvents, savedPlaceEvents);
 
         // then
         assertAll(
@@ -148,7 +148,7 @@ class PointAddCalculatorTest {
 
         // when, then
         assertThatThrownBy(() -> {
-            pointCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
+            pointEventCalculator.calculate(review, pointPolicy, savedEvents, new PointEvents());
         }).isInstanceOf(PointEventAlreadySavedException.class);
     }
 
@@ -159,7 +159,7 @@ class PointAddCalculatorTest {
         Review review = createTextReview(ReviewEventAction.ADD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
 
         // then
         assertAll(
@@ -176,7 +176,7 @@ class PointAddCalculatorTest {
         Review review = createPhotoReview(ReviewEventAction.ADD);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
 
         // then
         assertAll(
@@ -193,7 +193,7 @@ class PointAddCalculatorTest {
         Review review = createReview(ReviewEventAction.ADD, CONTENT, ATTACHED_PHOTO_IDS);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), new PointEvents());
 
         // then
         assertAll(
@@ -211,7 +211,7 @@ class PointAddCalculatorTest {
         Review review = createReview(ReviewEventAction.ADD, CONTENT, ATTACHED_PHOTO_IDS);
 
         // when
-        PointEvents events = pointCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
+        PointEvents events = pointEventCalculator.calculate(review, pointPolicy, new PointEvents(), savedPlaceEvents);
 
         // then
         assertAll(
