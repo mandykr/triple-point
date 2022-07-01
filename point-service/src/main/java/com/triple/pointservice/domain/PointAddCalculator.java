@@ -18,14 +18,14 @@ public class PointAddCalculator implements PointCalculator {
 
     @Override
     public PointEvents calculate(
-            Review review, PointPolicy pointPolicy, PointEvents saveEvents, PointEvents savePlaceEvents) {
-        calculateContentPoint(review, pointPolicy, saveEvents);
-        calculatePlacePoint(review, pointPolicy, savePlaceEvents);
+            Review review, PointPolicy pointPolicy, PointEvents savedEvents, PointEvents savedPlaceEvents) {
+        calculateContentPoint(review, pointPolicy, savedEvents);
+        calculatePlacePoint(review, pointPolicy, savedPlaceEvents);
         return events;
     }
 
-    private void calculateContentPoint(Review review, PointPolicy pointPolicy, PointEvents saveEvents) {
-        if (saveEvents.invalidAddNewContentEvent()) {
+    private void calculateContentPoint(Review review, PointPolicy pointPolicy, PointEvents savedEvents) {
+        if (savedEvents.invalidAddNewPoint()) {
             throw new PointEventAlreadySavedException();
         }
 
@@ -46,8 +46,8 @@ public class PointAddCalculator implements PointCalculator {
         }
     }
 
-    private void calculatePlacePoint(Review review, PointPolicy pointPolicy, PointEvents savePlaceEvents) {
-        if (savePlaceEvents.isValidAddNewPlaceEvent()) {
+    private void calculatePlacePoint(Review review, PointPolicy pointPolicy, PointEvents savedPlaceEvents) {
+        if (savedPlaceEvents.isValidAddNewPlacePoint()) {
             events.add(PointEvent.create(review, ADD, ADDED_FIRST_REVIEW_ON_PLACE, pointPolicy.getBasePoint()));
         }
     }

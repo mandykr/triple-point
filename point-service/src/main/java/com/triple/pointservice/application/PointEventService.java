@@ -39,11 +39,11 @@ public class PointEventService {
 
     private PointEvents calculatePoint(ReviewEventRequest reviewEventRequest) {
         PointCalculator calculator = PointCalculatorFactory.of(reviewEventRequest.getAction());
-        PointEvents savePointEvents =
+        PointEvents savedPointEvents =
                 new PointEvents(pointEventRepository.findByReviewId(reviewEventRequest.getReviewId()));
-        PointEvents savePlacePointEvents =
+        PointEvents savedPlacePointEvents =
                 new PointEvents(pointEventRepository.findByPlaceId(reviewEventRequest.getPlaceId()));
 
-        return calculator.calculate(reviewEventRequest.toReview(), pointPolicy, savePointEvents, savePlacePointEvents);
+        return calculator.calculate(reviewEventRequest.toReview(), pointPolicy, savedPointEvents, savedPlacePointEvents);
     }
 }

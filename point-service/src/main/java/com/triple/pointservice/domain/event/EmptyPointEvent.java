@@ -19,10 +19,10 @@ public class EmptyPointEvent extends PointEvent {
     }
 
     public static boolean isEmpty(PointEvent event) {
-        return EMPTY_POINT == event.getPoint();
+        return getInstance().equals(event);
     }
 
     public static boolean isNotEmpty(PointEvent event) {
-        return EMPTY_POINT != event.getPoint();
+        return !getInstance().equals(event);
     }
 }

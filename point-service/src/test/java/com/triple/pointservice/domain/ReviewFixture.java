@@ -36,4 +36,8 @@ public class ReviewFixture {
     public static Review createPhotoReview(ReviewEventAction action) {
         return createReview(action, "", ATTACHED_PHOTO_IDS);
     }
+
+    public static Review createTextAndPhotoReview(ReviewEventAction action) {
+        return createReview(action, CONTENT, ATTACHED_PHOTO_IDS);
+    }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.triple.pointservice.acceptance.PointEventAcceptanceSteps.*;
+import static com.triple.pointservice.acceptance.PointEventAcceptanceSteps.리뷰_수정_포인트_적립_요청;
 
 @DisplayName("포인트를 적립한다")
 class PointEventAcceptanceTest extends AcceptanceTest {
@@ -54,5 +55,21 @@ class PointEventAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> addResponse =
                 리뷰_생성_포인트_적립_요청(reviewId, content, Collections.emptyList(), userId, placeId);
         포인트_적립_완료(addResponse);
+
+        ExtractableResponse<Response> attachePhotosResponse =
+                리뷰_수정_포인트_적립_요청(reviewId, content, attachedPhotoIds, userId, placeId);
+        포인트_적립_완료(attachePhotosResponse);
+
+        ExtractableResponse<Response> deleteContentResponse =
+                리뷰_수정_포인트_적립_요청(reviewId, "", attachedPhotoIds, userId, placeId);
+        포인트_적립_완료(deleteContentResponse);
+
+        ExtractableResponse<Response> addContentResponse =
+                리뷰_수정_포인트_적립_요청(reviewId, content, attachedPhotoIds, userId, placeId);
+        포인트_적립_완료(addContentResponse);
+
+        ExtractableResponse<Response> deletePhotosResponse =
+                리뷰_수정_포인트_적립_요청(reviewId, content, Collections.emptyList(), userId, placeId);
+        포인트_적립_완료(deletePhotosResponse);
     }
 }

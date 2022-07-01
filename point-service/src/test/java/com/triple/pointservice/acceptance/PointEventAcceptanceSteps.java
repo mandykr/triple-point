@@ -25,6 +25,15 @@ public class PointEventAcceptanceSteps {
         return 포인트_적립_요청("ADD", reviewId, content, attachedPhotoIds, userId, placeId);
     }
 
+    public static ExtractableResponse<Response> 리뷰_수정_포인트_적립_요청(
+            UUID reviewId,
+            String content,
+            List<UUID> attachedPhotoIds,
+            UUID userId,
+            UUID placeId) {
+        return 포인트_적립_요청("MOD", reviewId, content, attachedPhotoIds, userId, placeId);
+    }
+
     private static ExtractableResponse<Response> 포인트_적립_요청(
             String action,
             UUID reviewId,

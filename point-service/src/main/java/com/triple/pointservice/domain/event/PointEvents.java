@@ -1,7 +1,9 @@
 package com.triple.pointservice.domain.event;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.triple.pointservice.domain.event.PointEventAction.DELETE;
 
@@ -20,11 +22,11 @@ public class PointEvents {
         return pointEvents;
     }
 
-    public boolean invalidAddNewContentEvent() {
+    public boolean invalidAddNewPoint() {
         return !isEmpty() && !allDeleted();
     }
 
-    public boolean isValidAddNewPlaceEvent() {
+    public boolean isValidAddNewPlacePoint() {
         return isEmpty() || allDeleted();
     }
 
@@ -39,5 +41,18 @@ public class PointEvents {
     public boolean allDeleted() {
         return pointEvents.stream()
                 .allMatch(e -> e.getAction() == DELETE);
+    }
+
+    public PointEvent getLastCreatedEvent(PointEventType type) {
+        List<PointEvent> sameTypeEvents = pointEvents.stream()
+                .filter(e -> e.getType() == type)
+                .collect(Collectors.toList());
+
+        if (sameTypeEvents.isEmpty()) {
+            return EmptyPointEvent.getInstance();
+        }
+        return sameTypeEvents.stream()
+                .max(Comparator.comparing(PointEvent::getCreatedDate))
+                .orElse(EmptyPointEvent.getInstance());
     }
 }
