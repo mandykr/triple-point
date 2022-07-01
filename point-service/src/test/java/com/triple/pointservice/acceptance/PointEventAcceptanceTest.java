@@ -71,5 +71,9 @@ class PointEventAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> deletePhotosResponse =
                 리뷰_수정_포인트_적립_요청(reviewId, content, Collections.emptyList(), userId, placeId);
         포인트_적립_완료(deletePhotosResponse);
+
+        ExtractableResponse<Response> deleteResponse =
+                리뷰_삭제_포인트_회수_요청(reviewId, content, Collections.emptyList(), userId, placeId);
+        포인트_회수_완료(deleteResponse);
     }
 }

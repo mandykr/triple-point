@@ -51,7 +51,20 @@ public class PointEventAcceptanceSteps {
                 .then().log().all().extract();
     }
 
+    public static ExtractableResponse<Response> 리뷰_삭제_포인트_회수_요청(
+            UUID reviewId,
+            String content,
+            List<UUID> attachedPhotoIds,
+            UUID userId,
+            UUID placeId) {
+        return 포인트_적립_요청("DELETE", reviewId, content, attachedPhotoIds, userId, placeId);
+    }
+
     public static void 포인트_적립_완료(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(CREATED.value());
+    }
+
+    public static void 포인트_회수_완료(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(CREATED.value());
     }
 
