@@ -2,7 +2,6 @@ package com.triple.pointservice.domain;
 
 import com.triple.pointservice.domain.event.EmptyPointEvent;
 import com.triple.pointservice.domain.event.PointEvent;
-import com.triple.pointservice.domain.event.PointEventType;
 import com.triple.pointservice.domain.event.PointEvents;
 import com.triple.pointservice.domain.exception.PointEventAllDeletedException;
 import com.triple.pointservice.domain.exception.PointEventNotFoundException;
@@ -26,7 +25,7 @@ public class PointDeleteEventCalculator implements PointEventCalculator {
             throw new PointEventNotFoundException();
         }
 
-        PointEvent savedTextEvent = savedEvents.getLastCreatedEvent(PointEventType.WRITE_TEXT);
+        PointEvent savedTextEvent = savedEvents.getLastCreatedEvent(WRITE_TEXT);
         PointEvent savedPhotoEvent = savedEvents.getLastCreatedEvent(ATTACHED_PHOTOS);
         PointEvent savedPlaceEvent = savedEvents.getLastCreatedEvent(ADDED_FIRST_REVIEW_ON_PLACE);
 

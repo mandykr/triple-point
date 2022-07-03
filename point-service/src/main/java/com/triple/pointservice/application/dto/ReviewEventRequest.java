@@ -2,6 +2,7 @@ package com.triple.pointservice.application.dto;
 
 import com.triple.pointservice.domain.Review;
 import com.triple.pointservice.domain.event.ReviewEventAction;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ReviewEventRequest {
     private String type;
     private ReviewEventAction action;
