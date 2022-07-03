@@ -16,7 +16,8 @@ public class PointAcceptanceSteps {
     public static ExtractableResponse<Response> 사용자_포인트_조회_요청(UUID userId) {
         return RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .when().get(ENDPOINT + "/{userId}", userId)
+                .queryParam("userId", userId)
+                .when().get(ENDPOINT)
                 .then().log().all().extract();
     }
 

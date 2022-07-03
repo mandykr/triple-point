@@ -20,7 +20,7 @@ public class PointResponse {
         return new PointResponse(point.getId(), point.getUserId(), point.getPoint());
     }
 
-    public static PointResponse empty() {
-        return new PointResponse();
+    public static PointResponse empty(UUID userId) {
+        return new PointResponse(null, userId, 0);
     }
 }

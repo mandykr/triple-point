@@ -19,7 +19,7 @@ public class PointService {
     public PointResponse findPoint(UUID userId) {
         Optional<Point> point = pointRepository.findByUserId(userId);
         if (point.isEmpty()) {
-            return PointResponse.empty();
+            return PointResponse.empty(userId);
         }
         return PointResponse.of(point.get());
     }
