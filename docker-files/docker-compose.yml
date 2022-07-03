@@ -2,11 +2,12 @@ version: '2'
 services:
   zookeeper:
     image: wurstmeister/zookeeper
+    container_name: zookeeper_server
     ports:
       - "2181:2181"
   kafka:
-    # build: .
     image: wurstmeister/kafka
+    container_name: kafka_server
     ports:
       - "9092:9092"
     environment:
@@ -17,3 +18,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on: 
       - zookeeper
+
+  database:
+    image: mysql:5.7
+    container_name: mysql_server
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pointdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - 3306:3306
+    volumes:
+      - ./database/mysql/conf.d:/etc/mysql/conf.d
+      - ./database/mysql/initdb.d:/docker-entrypoint-initdb.d
