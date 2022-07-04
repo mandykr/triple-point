@@ -42,8 +42,8 @@ public class PointModEventCalculator implements PointEventCalculator {
     }
 
     private boolean invalidUpdatePoint(PointEvent savedTextEvent, PointEvent savedPhotoEvent) {
-        return savedTextEvent.isDeleteEvent() &&
-                savedPhotoEvent.isDeleteEvent();
+        return savedTextEvent.isDeleteOrEmpty() &&
+                savedPhotoEvent.isDeleteOrEmpty();
     }
 
     private void calculateTextPoint(Review review, PointPolicy pointPolicy, PointEvent savedTextEvent) {

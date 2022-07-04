@@ -13,6 +13,8 @@ public class Point extends BaseEntity {
     @Column(name = "id", columnDefinition = "varbinary(16)")
     @Id
     private UUID id;
+
+    @Column(name = "userId", columnDefinition = "varbinary(16)")
     private UUID userId;
     private int point;
 

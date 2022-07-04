@@ -21,16 +21,27 @@ public class PointAddEventCalculator implements PointEventCalculator {
         PointEvents savedEvents = condition.getSavedEvents();
         PointEvents savedPlaceEvents = condition.getSavedPlaceEvents();
 
-        calculateContentPoint(review, pointPolicy, savedEvents);
+        PointEvent savedTextEvent = savedEvents.getLastCreatedEvent(WRITE_TEXT);
+        PointEvent savedPhotoEvent = savedEvents.getLastCreatedEvent(ATTACHED_PHOTOS);
+        PointEvent savedPlaceEvent = savedEvents.getLastCreatedEvent(ADDED_FIRST_REVIEW_ON_PLACE);
+
+        if (!savedEvents.isEmpty() &&
+                !isValidAddPoint(savedTextEvent, savedPhotoEvent, savedPlaceEvent)) {
+            throw new PointEventAlreadySavedException();
+        }
+
+        calculateContentPoint(review, pointPolicy);
         calculatePlacePoint(review, pointPolicy, savedPlaceEvents);
         return events;
     }
 
-    private void calculateContentPoint(Review review, PointPolicy pointPolicy, PointEvents savedEvents) {
-        if (savedEvents.invalidAddNewPoint()) {
-            throw new PointEventAlreadySavedException();
-        }
+    private boolean isValidAddPoint(PointEvent savedTextEvent, PointEvent savedPhotoEvent, PointEvent savedPlaceEvent) {
+        return savedTextEvent.isDeleteOrEmpty() &&
+                savedPhotoEvent.isDeleteOrEmpty() &&
+                savedPlaceEvent.isDeleteOrEmpty();
+    }
 
+    private void calculateContentPoint(Review review, PointPolicy pointPolicy) {
         calculateTextPoint(review, pointPolicy);
         calculatePhotoPoint(review, pointPolicy);
     }
@@ -49,7 +60,11 @@ public class PointAddEventCalculator implements PointEventCalculator {
     }
 
     private void calculatePlacePoint(Review review, PointPolicy pointPolicy, PointEvents savedPlaceEvents) {
-        if (savedPlaceEvents.isValidAddNewPlacePoint()) {
+        PointEvent savedTextEvent = savedPlaceEvents.getLastCreatedEvent(WRITE_TEXT);
+        PointEvent savedPhotoEvent = savedPlaceEvents.getLastCreatedEvent(ATTACHED_PHOTOS);
+        PointEvent savedPlaceEvent = savedPlaceEvents.getLastCreatedEvent(ADDED_FIRST_REVIEW_ON_PLACE);
+
+        if (isValidAddPoint(savedTextEvent, savedPhotoEvent, savedPlaceEvent)) {
             events.add(PointEvent.create(review, ADD, ADDED_FIRST_REVIEW_ON_PLACE, pointPolicy.getBasePoint()));
         }
     }

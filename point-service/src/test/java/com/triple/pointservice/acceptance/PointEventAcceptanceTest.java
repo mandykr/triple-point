@@ -49,6 +49,8 @@ class PointEventAcceptanceTest extends AcceptanceTest {
      *     Then 포인트 적립됨
      *     When 리뷰 삭제 포인트 회수 요청
      *     Then 포인트 회수됨
+     *     When 텍스트 리뷰 포인트 적립 요청
+     *     Then 포인트 적립됨
      */
     @Test
     void earn() {
@@ -75,5 +77,9 @@ class PointEventAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> deleteResponse =
                 리뷰_삭제_포인트_회수_요청(reviewId, content, Collections.emptyList(), userId, placeId);
         포인트_회수_완료(deleteResponse);
+
+        ExtractableResponse<Response> addAgainResponse =
+                리뷰_생성_포인트_적립_요청(reviewId, content, attachedPhotoIds, userId, placeId);
+        포인트_적립_완료(addAgainResponse);
     }
 }

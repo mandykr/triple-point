@@ -7,7 +7,7 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.UUID;
 
-import static com.triple.pointservice.domain.event.PointEventAction.*;
+import static com.triple.pointservice.domain.event.PointEventAction.DELETE;
 
 @Getter
 @Entity(name = "point_event")
@@ -53,7 +53,8 @@ public class PointEvent extends BaseEntity {
         return new PointEvent(type, action, review.getReviewId(), review.getUserId(), review.getPlaceId(), point);
     }
 
-    public boolean isDeleteEvent() {
-        return action == DELETE;
+    public boolean isDeleteOrEmpty() {
+        return action == DELETE ||
+                EmptyPointEvent.isEmpty(this);
     }
 }

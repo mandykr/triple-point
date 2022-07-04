@@ -132,15 +132,16 @@ class PointAddCalculatorTest {
         PointEvents savedEvents = createPointEvents(
                 createTextEvent(DELETE, pointPolicy, LocalDate.now())
         );
-        PointEventCalculateCondition condition = new PointEventCalculateCondition(savedEvents, savedPlaceEvents);
+        PointEventCalculateCondition condition = savedEventsCondition(savedEvents);
 
         // when
         PointEvents events = pointEventCalculator.calculate(review, pointPolicy, condition);
 
         // then
         assertAll(
-                () -> assertThat(getSize(events)).isEqualTo(2),
-                () -> assertThat(getTypes(events)).containsOnly(WRITE_TEXT, ATTACHED_PHOTOS),
+                () -> assertThat(getSize(events)).isEqualTo(3),
+                () -> assertThat(getTypes(events))
+                        .containsOnly(WRITE_TEXT, ATTACHED_PHOTOS, ADDED_FIRST_REVIEW_ON_PLACE),
                 () -> assertThat(getActions(events)).containsOnly(ADD)
         );
     }

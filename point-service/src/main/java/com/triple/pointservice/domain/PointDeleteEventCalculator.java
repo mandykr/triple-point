@@ -27,7 +27,7 @@ public class PointDeleteEventCalculator implements PointEventCalculator {
 
         PointEvent savedTextEvent = savedEvents.getLastCreatedEvent(WRITE_TEXT);
         PointEvent savedPhotoEvent = savedEvents.getLastCreatedEvent(ATTACHED_PHOTOS);
-        PointEvent savedPlaceEvent = savedEvents.getLastCreatedEvent(ADDED_FIRST_REVIEW_ON_PLACE);
+        PointEvent savedPlaceEvent = savedEvents.getLastCreatedEvent(ADDED_FIRST_REVIEW_ON_PLACE, review.getReviewId());
 
         if (invalidDeletePoint(savedTextEvent, savedPhotoEvent, savedPlaceEvent)) {
             throw new PointEventAllDeletedException();
@@ -42,9 +42,9 @@ public class PointDeleteEventCalculator implements PointEventCalculator {
 
     private boolean invalidDeletePoint(
             PointEvent savedTextEvent, PointEvent savedPhotoEvent, PointEvent savedPlaceEvent) {
-        return savedTextEvent.isDeleteEvent() &&
-                savedPhotoEvent.isDeleteEvent() &&
-                savedPlaceEvent.isDeleteEvent();
+        return savedTextEvent.isDeleteOrEmpty() &&
+                savedPhotoEvent.isDeleteOrEmpty() &&
+                savedPlaceEvent.isDeleteOrEmpty();
     }
 
     private void calculateTextPoint(Review review, PointPolicy pointPolicy, PointEvent savedTextEvent) {
@@ -60,7 +60,7 @@ public class PointDeleteEventCalculator implements PointEventCalculator {
     }
 
     private void calculatePlacePoint(Review review, PointPolicy pointPolicy, PointEvent savedPlaceEvent) {
-        if (hasPlacePoint(savedPlaceEvent)) {
+        if (hasPlacePoint(savedPlaceEvent, review)) {
             events.add(PointEvent.create(review, DELETE, ADDED_FIRST_REVIEW_ON_PLACE, pointPolicy.getBasePoint()));
         }
     }
@@ -75,7 +75,7 @@ public class PointDeleteEventCalculator implements PointEventCalculator {
                 savedPhotoEvent.getAction() == ADD;
     }
 
-    private boolean hasPlacePoint(PointEvent savedPlaceEvent) {
+    private boolean hasPlacePoint(PointEvent savedPlaceEvent, Review review) {
         return EmptyPointEvent.isNotEmpty(savedPlaceEvent) &&
                 savedPlaceEvent.getAction() == ADD;
     }
